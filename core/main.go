@@ -5,5 +5,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	ip := GetLocalIP()
+
+	fmt.Printf("Local IP is %s\n", ip)
 }
