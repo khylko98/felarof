@@ -12,6 +12,7 @@ deps:
 	@cd core && if [ ! -f go.mod ]; then \
 		echo "Initializing Go module..."; \
 		$(GOCMD) mod init $(BINARY_NAME); \
+		$(GOCMD) get github.com/skip2/go-qrcode; \
 	fi
 	@cd core && $(GOCMD) mod tidy
 
