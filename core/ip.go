@@ -16,8 +16,8 @@ func GetLocalIP() string {
 			continue
 		}
 
-		ip := ipnet.IP
-		if ip.IsLoopback() || ip.IsLinkLocalUnicast() || ip.To4() == nil {
+		ip := ipnet.IP.To4()
+		if ip == nil || ip.IsLoopback() || !ip.IsPrivate() {
 			continue
 		}
 
