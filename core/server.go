@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"html/template"
+	"io/fs"
 	"log"
 	"net"
 	"net/http"
@@ -18,7 +19,7 @@ type FelarofServer struct {
 	template *template.Template
 }
 
-func NewServer(files []string, tmpl *template.Template) (*FelarofServer, error) {
+func NewServer(files []string, tmpl *template.Template, fileSystem fs.FS) (*FelarofServer, error) {
 	ip := GetLocalIP()
 
 	l, err := net.Listen("tcp", ":0")
@@ -40,6 +41,8 @@ func NewServer(files []string, tmpl *template.Template) (*FelarofServer, error) 
 		mux:      http.NewServeMux(),
 		template: tmpl,
 	}
+
+	server.mux.Handle("/static/", http.FileServer(http.FS(fileSystem)))
 
 	basePath := "/" + server.token + "/"
 	server.mux.HandleFunc(basePath, server.handleMainPage)

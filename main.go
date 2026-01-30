@@ -12,18 +12,18 @@ import (
 	"felarof/core"
 )
 
-//go:embed assets/index.html
-var assetsFS embed.FS
+//go:embed static/*
+var staticFS embed.FS
 
 func main() {
-	tmpl, err := template.ParseFS(assetsFS, "assets/index.html")
+	tmpl, err := template.ParseFS(staticFS, "static/templates/index.html")
 	if err != nil {
 		log.Fatalf("Failed to load template: %v", err)
 	}
 
 	files := os.Args[1:]
 
-	server, err := core.NewServer(files, tmpl)
+	server, err := core.NewServer(files, tmpl, staticFS)
 	if err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
